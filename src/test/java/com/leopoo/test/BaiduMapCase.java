@@ -3,9 +3,12 @@ package com.leopoo.test;
 
 import com.leopoo.bmap.IBaiduMap;
 import com.leopoo.bmap.api.BaiduMapService;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 
+@Slf4j
 public class BaiduMapCase {
 
 
@@ -18,11 +21,9 @@ public class BaiduMapCase {
 
 
   @Test
-  public void geocode() {
-    try {
-      baiduMap.geocode("四川省成都市", null);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  public void geocode() throws Exception {
+    String address = "四川省成都市";
+    Map<String, String> map = baiduMap.geocode(address, null);
+    System.out.println(address + "经纬度\t" + map.get("lat") + "\t" + map.get("lng"));
   }
 }
