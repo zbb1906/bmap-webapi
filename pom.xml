@@ -13,7 +13,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -57,7 +56,6 @@
       <version>1.7.25</version>
       <scope>provided</scope>
     </dependency>
-
   </dependencies>
 
   <!-- maven部署仓库配置 -->

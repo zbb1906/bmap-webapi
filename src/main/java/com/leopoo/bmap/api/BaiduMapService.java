@@ -19,30 +19,25 @@ public class BaiduMapService extends AbstractBaiduMap {
     super(ak);
   }
 
-  public Map<String, String> geocode(String address, String city) {
+  public Map<String, String> geocode(String address, String city) throws Exception {
     assert StringUtils.isNotEmpty(address) : "待解析的地址不能为空字符串";
     HttpParams http = get().put("output", "json");  //设置返回json
     http.put("address", address);
     if (StringUtils.isNotEmpty(city)) {
       http.put("city", city);
     }
-    try {
-      String result = http.send2String(API.GEOCODE.getUrl());
-      JSONObject json = JSON.parseObject(result);
-      int status = json.getInteger("status");
-      if (status == Status.OK.getStatus()) {  // 查询成功
-        Map<String, String> map = new HashMap<>();
-        JSONObject location = json.getJSONObject("result").getJSONObject("location");
-        map.put("lat", location.getString("lat"));
-        map.put("lng", location.getString("lng"));
-        return map;
-      } else {
-        log.info("地址:{},查询失败:{}", address, Status.getMessage(status));
-        return null; // 查询失败
-      }
-    } catch (Exception e) {
-      log.error("地址正向解析失败:{}", address, e);
+    String result = http.send2String(API.GEOCODE.getUrl());
+    JSONObject json = JSON.parseObject(result);
+    int status = json.getInteger("status");
+    if (status == Status.OK.getStatus()) {  // 查询成功
+      Map<String, String> map = new HashMap<>();
+      JSONObject location = json.getJSONObject("result").getJSONObject("location");
+      map.put("lat", location.getString("lat"));
+      map.put("lng", location.getString("lng"));
+      return map;
+    } else {
+      log.info("地址:{},查询失败:{}", address, Status.getMessage(status));
+      return null; // 查询失败
     }
-    return null;
   }
 }
